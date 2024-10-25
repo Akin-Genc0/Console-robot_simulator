@@ -50,6 +50,10 @@ public class RobotArena {
 	}
 
 
+	
+	 
+	 
+	 
 	public int getXsize() {
 		return maxX;
 		
@@ -107,4 +111,6 @@ public class RobotArena {
 	}
 	
 }
+
+//2d array border go throw the border using forloop and place # on the borders 
 
