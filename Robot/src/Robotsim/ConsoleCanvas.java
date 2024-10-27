@@ -32,10 +32,17 @@ public class ConsoleCanvas {
         }
     }
 
-    public void showIt(int x, int y, char ch) {
-    	canvas[x + 1][y + 1] = ch;
+
+    	public void showIt(int x, int y, char ch) {
+    	    // Only display within the inner arena
+    	    if (x > 0 && x < width - 1 && y > 0 && y < height - 1) {
+    	        canvas[y][x] = ch;
+    	    }
     	
+
     }
+
+
 
     public String toString() {
         String ans = "";
@@ -50,7 +57,7 @@ public class ConsoleCanvas {
 
     public static void main(String[] args) {
         ConsoleCanvas c = new ConsoleCanvas(25, 10, "32001832"); // create a canvas
-        c.showIt(4, 3, 'R'); // add a Robot at 4,3
+        
         System.out.println(c.toString()); // display result
     }
 }
