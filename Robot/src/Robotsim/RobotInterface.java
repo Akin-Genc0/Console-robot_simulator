@@ -1,6 +1,11 @@
 package Robotsim;
-import java.util.Scanner;
-
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;  // Import the Scanner class
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 
  
@@ -13,13 +18,15 @@ public class RobotInterface {
     	 * sets up scanner used for input and the arena
     	 * then has main loop allowing user to enter commands
      */
+    
+    
     public RobotInterface() {
     	 s = new Scanner(System.in);			// set up scanner for user input
     	 myArena = new RobotArena(20, 6 ,Direction.getRandomDirection());	// create arena of size 20*6
     	
         char ch = ' ';
         do {
-            System.out.print("Enter (A)dd Robot, get (I)nformation or e(X)it or (D)isplay or (M)ove S(imulate)> ");
+            System.out.print("Enter (A)dd Robot, get (I)nformation or e(X)it or (D)isplay or (M)ove or S(imulate) or N(ew) or Y(Save) > ");
             ch = s.next().charAt(0);
             s.nextLine();
             switch (ch) {
@@ -50,6 +57,21 @@ public class RobotInterface {
                 	myArena.animation(10);          
                 	doDisplay(); // Call the doDisplay() method to display the arena with robots
                     break;
+                    
+                    
+                case 'N' :
+                case 'n' :
+                	createNewArena(); 
+                	doDisplay();
+                    break; 
+                    
+                    
+               
+                case 'Y' :
+                case 'y' :
+                    saveArena();    // Save the current state of the arena
+                    break;                	
+                    
             }
         } while (ch != 'X');                // test if end
         
@@ -76,16 +98,51 @@ public class RobotInterface {
     	// then use the ConsoleCanvas.toString method
     	 System.out.println(cc.toString());   
     
-    
     }
     
-    
-    
-    
+    public void createNewArena() {
+    	
+    	// Prompt for arena dimensions
+    	System.out.print("Enter new arena width: ");
+        int x = s.nextInt();  // Get width from user
+
+        System.out.print("Enter new arena height: ");
+        int y = s.nextInt();  // Get height from user
+        
+         myArena = new RobotArena(x, y,Direction.getRandomDirection());
+         System.out.println("New arena created with dimensions " + x + "x" + y);
+    	
+    }
     
 	public static void main(String[] args) {
 		RobotInterface r = new RobotInterface();	// just call the interface
 	}
+    
+    
+	public void saveArena() {
+	    TextFile tf = new TextFile("Text files", "txt");
+	    
+	    if (tf.createFile()) { // if file is successfully created or chosen
+	      
+	        String arenaData = myArena.toString();
+	        tf.writeAllFile(arenaData);  // Write the arena data to the file
+	        System.out.println("Arena saved successfully to " + tf.usedFileName());
+	    } else {
+	        System.out.println("Failed to create or select a file.");
+	    }
+	}
+
+
+    	
+    	
+     
+    public void loadFile() {
+    	
+     
+    } 
+    
+    
+
 
 	
 	
