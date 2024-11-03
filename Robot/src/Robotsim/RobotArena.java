@@ -29,8 +29,57 @@ public class RobotArena {
 	    }
 	 
 	 
-	
-	 void addRobot() {
+	 public RobotArena(String fs) {
+		    manyRobots = new ArrayList<>();
+		    randomGenerator = new Random();
+
+		    String[] lines = fs.split("\n");
+
+		    if (lines.length > 0) {
+		        String[] dimensions = lines[0].split(" ");
+		        if (dimensions.length >= 5) {
+		            try {
+		                maxY = Integer.parseInt(dimensions[2]);
+		                maxX = Integer.parseInt(dimensions[4]);
+		            } catch (NumberFormatException e) {
+		                System.err.println("Error parsing dimensions: " + e.getMessage());
+		                return;
+		            }
+		        } else {
+		            System.err.println("Invalid dimensions line.");
+		            return;
+		        }
+
+		        // Parse robots from the remaining lines
+		        for (int i = 1; i < lines.length; i++) {
+		            try {
+		                String[] robotDetails = lines[i].split(" at |, | Direction, ");
+		                // Expected to split into ["Robot0", "1", "1", "NORTH"]
+		                if (robotDetails.length >= 4) {
+		                    int x = Integer.parseInt(robotDetails[1]);
+		                    int y = Integer.parseInt(robotDetails[2]);
+		                    Direction direction = Direction.valueOf(robotDetails[3]);
+		                    Robot newRobot = new Robot(x, y, direction);
+		                    manyRobots.add(newRobot);
+		                } else {
+		                    System.err.println("Invalid robot data on line " + (i + 1));
+		                }
+		            } catch (Exception e) {
+		                System.err.println("Error parsing robot on line " + (i + 1) + ": " + e.getMessage());
+		            }
+		        }
+		    } else {
+		        System.err.println("Empty or invalid file content.");
+		    }
+		}
+
+
+
+
+
+
+
+	void addRobot() {
 		    while (true) {
 		    	int rx = randomGenerator.nextInt(maxX -2 ) + 1;
 		    	int ry = randomGenerator.nextInt(maxY -2) + 1;
@@ -169,6 +218,13 @@ public class RobotArena {
 	
 	public int getYsize() {
 		return maxY;
+		
+	}
+
+
+
+	public void RobotArena(int x, int y, Direction direction) {
+		// TODO Auto-generated method stub
 		
 	}
 	
