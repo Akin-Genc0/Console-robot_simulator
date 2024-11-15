@@ -1,0 +1,3 @@
+Arena size 20 by 6 with 
+Robot0 at 1, 1 Direction, NORTH
+Robot1 at 15, 3 Direction, NORTH

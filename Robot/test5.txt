@@ -1,0 +1,3 @@
+Arena size 15 by 15 with 
+Robot3 at 3, 11 Direction, SOUTH
+Robot4 at 3, 9 Direction, WEST

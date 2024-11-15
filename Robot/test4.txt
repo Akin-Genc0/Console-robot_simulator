@@ -1,0 +1,3 @@
+Arena size 20 by 20 with 
+Robot0 at 1, 3 Direction, EAST
+Robot1 at 6, 14 Direction, EAST
