@@ -56,7 +56,7 @@ public class RobotInterface {
                     
                 case 'N' :
                 case 'n' :
-                	createNewArena(); 
+                	createNewArena();  // call createNewArena
                 	doDisplay();
                     break; 
                     
@@ -123,13 +123,15 @@ public class RobotInterface {
 	    
 	    if (tf.createFile()) { // if file is successfully created or chosen
 	      
+	    	 // Retrieve the string representation of the arena
 	        String arenaData = myArena.toString();
+	        
 	        tf.writeAllFile(arenaData);  // Write the arena data to the file
 	        System.out.println("Arena saved successfully to " + tf.usedFileName());
 	    } else {
 	        System.out.println("Failed to create or select a file.");
 	    }
-	    tf.closeFile();
+	    tf.closeFile(); // close file
 	}
 
 
@@ -147,6 +149,8 @@ public class RobotInterface {
                 fs = fs.substring(0, fs.length() - 1);  // Safely remove the last newline character if it exists
             }
       
+            
+            //sets new
             myArena = new RobotArena(fs); 
     	
         }

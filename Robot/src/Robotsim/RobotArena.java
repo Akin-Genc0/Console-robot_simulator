@@ -9,15 +9,16 @@ import java.util.Random;
 
 public class RobotArena {
 
-	
+	  // List to hold all robots
 	private ArrayList<Robot> manyRobots;
-	Random randomGenerator;
+	Random randomGenerator; // Initialise a random generator  
 	
-	private int maxX , maxY; //how big the arena is gonna be
-	private Robot R;
+	private int maxX , maxY;  // Dimensions of the arena
+	private Robot R; 
 	private Direction dir;
 	
 	
+	 // Constructor initialising the arena with specified dimensions and a default direction
 	
 	 public RobotArena(int maxX, int maxY, Direction dir ) {
 		manyRobots = new ArrayList<Robot>();
@@ -29,60 +30,16 @@ public class RobotArena {
 	    }
 	 
 	 
-	 public RobotArena(String fs) {
-		    manyRobots = new ArrayList<>();
-		    randomGenerator = new Random();
-
-		    String[] lines = fs.split("\n");
-
-		    if (lines.length > 0) {
-		        String[] dimensions = lines[0].split(" ");
-		        if (dimensions.length >= 5) {
-		            try {
-		                maxY = Integer.parseInt(dimensions[2]);
-		                maxX = Integer.parseInt(dimensions[4]);
-		            } catch (NumberFormatException e) {
-		                System.err.println("Error parsing dimensions: " + e.getMessage());
-		                return;
-		            }
-		        } else {
-		            System.err.println("Invalid dimensions line.");
-		            return;
-		        }
-
-		        // Parse robots from the remaining lines
-		        for (int i = 1; i < lines.length; i++) {
-		            try {
-		                String[] robotDetails = lines[i].split(" at |, | Direction, ");
-		                // Expected to split into ["Robot0", "1", "1", "NORTH"]
-		                if (robotDetails.length >= 4) {
-		                    int x = Integer.parseInt(robotDetails[1]);
-		                    int y = Integer.parseInt(robotDetails[2]);
-		                    Direction direction = Direction.valueOf(robotDetails[3]);
-		                    Robot newRobot = new Robot(x, y, direction);
-		                    manyRobots.add(newRobot);
-		                } else {
-		                    System.err.println("Invalid robot data on line " + (i + 1));
-		                }
-		            } catch (Exception e) {
-		                System.err.println("Error parsing robot on line " + (i + 1) + ": " + e.getMessage());
-		            }
-		        }
-		    } else {
-		        System.err.println("Empty or invalid file content.");
-		    }
-		}
-
-
-
 
 
 
 
 	void addRobot() {
 		    while (true) {
-		    	int rx = randomGenerator.nextInt(maxX -2 ) + 1;
-		    	int ry = randomGenerator.nextInt(maxY -2) + 1;
+		    	
+		    	
+		    	int rx = randomGenerator.nextInt(maxX -2 ) + 1; // generate a random x-coordinate within the bounds
+		    	int ry = randomGenerator.nextInt(maxY -2) + 1; // generate a random y-coordinate within the bounds
 
 		    	 
 		    	 
@@ -108,16 +65,16 @@ public class RobotArena {
 	 */
 	 public void showRobots(ConsoleCanvas c) {
 	
-		 for(Robot R: manyRobots) {
+		 for(Robot R: manyRobots) { 
 			 
-			 R.displayRobot(c);
+			 R.displayRobot(c); // Display each robot on the canvas
 		 }
 	 }
 	 
 	
 	public String toString() {
 		
-		
+		 // Initialise the result string with the arena size
 		String res = "Arena size " + maxX + " by " + maxY + " with " + "\n";
 		for(Robot R: manyRobots) res += R.toString()+ "\n";
 			
@@ -125,10 +82,9 @@ public class RobotArena {
 		
 	}
 	
+	
 	public static void main(String[] args) {
 		RobotArena a = new RobotArena(20, 10, Direction.getRandomDirection()); // create Robot arena
-		
-		
 		
 		for(int i = 0; i < 5; i++) {
 			a.addRobot();
@@ -139,7 +95,6 @@ public class RobotArena {
 }
 	
 	public boolean canMoveHere(int x, int y) {
-		
 		
 		if( x >= maxX  || x < 0 || y < 0 || y >= maxY) {
 			return false;
@@ -161,7 +116,6 @@ public class RobotArena {
 	
 	public void moveAllRobots() {
 		
-		
 		// Loop through each robot in the list of robots
 		for(Robot R: manyRobots) {
 			
@@ -175,7 +129,7 @@ public class RobotArena {
 	public void animation(int nTimes) {
 	    for (int i = 0; i < nTimes; i++) {
 	      moveAllRobots();  // Move all robots once
-	      System.out.println(toString());              // Redraw the arena to show new positions
+	      System.out.println(toString());   // Redraw the arena to show new positions
 
 	        // Delay to create animation effect
 	        try {
@@ -191,25 +145,74 @@ public class RobotArena {
 	
 	public Robot getRobotAt(int x, int y) {
 		
-	
+		// Iterate over all robots in the list
 		for(int i = 0; i < manyRobots.size(); i++) {
-			
-			
 			Robot currentRobot = manyRobots.get(i); // Get the robot at index i
 			
 			 if (currentRobot.isHere(x, y)) {
 		            return currentRobot; // Return the robot if it matches the position
 		        }
-			
 		}
-
-		 return null;
-		
-		
+		 return null;	
 	}
 	
 	
 	
+	
+	 public RobotArena(String fs) {
+		    manyRobots = new ArrayList<>();
+		    randomGenerator = new Random();
+
+		    String[] lines = fs.split("\n"); // Split the input string into lines to process each separately
+
+		    if (lines.length > 0) {
+		        String[] dimensions = lines[0].split(" ");
+		        if (dimensions.length >= 5) {
+		            try {
+		            	 // parse the arena dimensions from the specified indices
+		                maxY = Integer.parseInt(dimensions[2]);
+		                maxX = Integer.parseInt(dimensions[4]);
+		            } catch (NumberFormatException e) {
+		                System.err.println("Error parsing dimensions: " + e.getMessage());
+		                return;
+		            }
+		        } else {
+		        	// If the dimensions line does not contain enough parts, log an error and exit
+		            System.err.println("Invalid dimensions line.");
+		            return;
+		        }
+
+		        // Parse robots from the remaining lines
+		        for (int i = 1; i < lines.length; i++) {
+		            try {
+		                String[] robotDetails = lines[i].split(" at |, | Direction, ");
+		                // Expected to split into ["Robot0", "1", "1", "NORTH"]
+		                
+		                if (robotDetails.length >= 4) {
+		                	  // Parse the robot's position (x, y) and direction
+		                    int x = Integer.parseInt(robotDetails[1]);
+		                    int y = Integer.parseInt(robotDetails[2]);
+		                    Direction direction = Direction.valueOf(robotDetails[3]);
+		                    
+		                    // Create a new Robot object with parsed details and add it to the list
+		                    Robot newRobot = new Robot(x, y, direction);
+		                    manyRobots.add(newRobot);
+		                } else {
+		                    System.err.println("Invalid robot data on line " + (i + 1));
+		                }
+		            } catch (Exception e) {
+		                System.err.println("Error parsing robot on line " + (i + 1) + ": " + e.getMessage());
+		            }
+		        }
+		    } else {
+		        System.err.println("Empty or invalid file content.");
+		    }
+		}
+
+	
+	
+	
+	//getter
 	 
 	public int getXsize() {
 		return maxX;
@@ -220,15 +223,7 @@ public class RobotArena {
 		return maxY;
 		
 	}
-
-
-
-	public void RobotArena(int x, int y, Direction direction) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }
-
 
 
